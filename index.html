@@ -7,11 +7,11 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Goaloo Frame</title>
+    <title>Goaloo Display</title>
 
     <style>
         /* =========================================================
-           PAGE
+           LOCK THE OUTER PAGE
            ========================================================= */
 
         html,
@@ -33,7 +33,7 @@
 
 
         /* =========================================================
-           CROPPING WINDOW
+           FIXED CROPPING WINDOW
            ========================================================= */
 
         #crop {
@@ -58,34 +58,32 @@
 
 
         /* =========================================================
-           GOALOO IFRAME
+           GOALOO FRAME
            ========================================================= */
 
         #goaloo {
             position: absolute;
 
             /*
-             * CROP FROM TOP
-             *
-             * 200px is currently cropped.
-             *
-             * Change both 200 values if needed.
+             * CROP 200px FROM THE TOP
              */
             top: -200px;
 
             left: 0;
 
+
             /*
-             * Extra width pushes the right-side
-             * scrollbar outside the visible area.
+             * MAKE FRAME WIDER THAN VIEWPORT
+             * SO RIGHT SCROLLBAR IS CROPPED
              */
             width: calc(100% + 25px);
 
+
             /*
-             * Add the cropped 200px back to the
-             * iframe height.
+             * COMPENSATE FOR TOP CROP
              */
             height: calc(100% + 200px);
+
 
             border: 0;
 
@@ -93,22 +91,27 @@
 
             background: #ffffff;
 
+
             /*
-             * IMPORTANT:
+             * =====================================================
+             * DISPLAY ONLY
              *
-             * This prevents users from interacting
-             * with the Goaloo iframe.
+             * Users cannot:
+             * - click
+             * - tap
+             * - drag
+             * - swipe
+             * - scroll
+             * - interact with Goaloo
              *
-             * No clicking.
-             * No touching.
-             * No dragging.
-             * No scrolling.
+             * The frame remains visible.
+             * =====================================================
              */
             pointer-events: none;
 
-            overscroll-behavior: none !important;
-
             touch-action: none !important;
+
+            overscroll-behavior: none !important;
         }
     </style>
 </head>
@@ -117,7 +120,7 @@
 <body>
 
     <!-- =========================================================
-         CROPPING WINDOW
+         DISPLAY WINDOW
          ========================================================= -->
 
     <div id="crop">
@@ -136,7 +139,7 @@
         /* =========================================================
            GET MATCH ID FROM APPSMITH
            
-           Appsmith loads:
+           Appsmith loads this page as:
 
            https://betpointalerts.github.io/goalooframe/?id=12345
            ========================================================= */
@@ -152,7 +155,7 @@
 
 
         /* =========================================================
-           LOAD GOALOO MATCH
+           LOAD THE CORRECT GOALOO MATCH
            ========================================================= */
 
         if (id && id.trim() !== "") {
@@ -165,130 +168,6 @@
 
         } else {
 
-            goalooFrame.src = "about:blank";
-
-        }
-    </script>
-
-</body>
-</html>        #crop {
-            position: fixed;
-
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-
-            width: 100%;
-            height: 100%;
-
-            overflow: hidden !important;
-
-            background: #ffffff;
-
-            overscroll-behavior: none !important;
-        }
-
-
-        /* =========================================================
-           GOALOO IFRAME
-           ========================================================= */
-
-        #goaloo {
-            position: absolute;
-
-            /*
-             * CROP FROM TOP
-             *
-             * Change -200px if needed:
-             *
-             * -100px = crop 100px
-             * -150px = crop 150px
-             * -200px = crop 200px
-             * -250px = crop 250px
-             * -300px = crop 300px
-             */
-            top: -200px;
-
-            left: 0;
-
-            /*
-             * Extra width pushes the Goaloo
-             * scrollbar outside the visible area.
-             */
-            width: calc(100% + 25px);
-
-            /*
-             * Add the cropped height back so
-             * the bottom of the page remains available.
-             */
-            height: calc(100% + 200px);
-
-            border: 0;
-
-            display: block;
-
-            background: #ffffff;
-
-            overscroll-behavior: none !important;
-        }
-    </style>
-</head>
-
-
-<body>
-
-    <!-- =========================================================
-         CROPPED VIEWPORT
-         ========================================================= -->
-
-    <div id="crop">
-
-        <iframe
-            id="goaloo"
-            frameborder="0"
-            scrolling="yes"
-            allow="fullscreen">
-        </iframe>
-
-    </div>
-
-
-    <script>
-        /* =========================================================
-           GET MATCH ID FROM APPSMITH
-           
-           Appsmith loads this page as:
-
-           https://betpointalerts.github.io/goalooframe/?id=12345
-
-           The ID is then used to create the Goaloo URL.
-           ========================================================= */
-
-        const params = new URLSearchParams(window.location.search);
-
-        const id = params.get("id");
-
-        const goalooFrame = document.getElementById("goaloo");
-
-
-        /* =========================================================
-           LOAD GOALOO MATCH
-           ========================================================= */
-
-        if (id && id.trim() !== "") {
-
-            const goalooUrl =
-                "https://live.goaloo901.com/basketball/match-" +
-                encodeURIComponent(id.trim());
-
-            goalooFrame.src = goalooUrl;
-
-        } else {
-
-            /*
-             * No ID was supplied.
-             */
             goalooFrame.src = "about:blank";
 
         }
