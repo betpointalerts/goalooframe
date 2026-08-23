@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Goaloo Display</title>
-
 <style>
 html,
 body {
@@ -13,8 +11,7 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden !important;
-    background: #ffffff;
+    overflow: hidden;
 }
 
 #crop {
@@ -22,25 +19,28 @@ body {
     inset: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden !important;
+    overflow: hidden;
 }
 
-/* Goaloo stays visible */
 #goaloo {
     position: absolute;
 
+    /* TOP CROP */
     top: -50px;
+
+    /* LEFT CROP */
     left: -40px;
 
+    /* 40px left + 40px right */
     width: calc(100% + 80px);
+
+    /* compensate for top crop */
     height: calc(100% + 50px);
 
     border: 0;
-    display: block;
 
     /*
-     * This is the part that actually
-     * prevents the iframe from scrolling.
+     * ONLY interaction-blocking rule
      */
     pointer-events: none;
 }
@@ -53,32 +53,21 @@ body {
 
     <iframe
         id="goaloo"
-        frameborder="0"
-        scrolling="no">
+        frameborder="0">
     </iframe>
 
 </div>
 
 <script>
-const params = new URLSearchParams(
-    window.location.search
-);
-
+const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-const goalooFrame =
-    document.getElementById("goaloo");
+const goalooFrame = document.getElementById("goaloo");
 
 if (id && id.trim() !== "") {
-
     goalooFrame.src =
         "https://live.goaloo901.com/basketball/match-" +
         encodeURIComponent(id.trim());
-
-} else {
-
-    goalooFrame.src = "about:blank";
-
 }
 </script>
 
