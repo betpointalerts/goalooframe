@@ -1,128 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Goaloo Display</title>
+<title>Goaloo Display</title>
 
-    <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden !important;
-            background: #ffffff;
-        }
+<style>
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden !important;
+    background: #ffffff;
+}
 
-        #crop {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden !important;
-        }
+#crop {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden !important;
+}
 
-        /* =====================================================
-           GOALOO
-           ===================================================== */
+/* Goaloo stays visible */
+#goaloo {
+    position: absolute;
 
-        #goaloo {
-            position: absolute;
+    top: -50px;
+    left: -40px;
 
-            /* Remove unwanted area from top */
-            top: -50px;
+    width: calc(100% + 80px);
+    height: calc(100% + 50px);
 
-            /* Remove 40px from left */
-            left: -40px;
+    border: 0;
+    display: block;
 
-            /* Remove 40px from left + 40px from right */
-            width: calc(100% + 80px);
-
-            /* Compensate for top crop */
-            height: calc(100% + 50px);
-
-            border: 0;
-            display: block;
-        }
-
-        /* =====================================================
-           INVISIBLE LOCKING LAYER
-           
-           Sits above Goaloo.
-           
-           It prevents:
-           - touch scrolling
-           - swiping
-           - dragging
-           - clicking
-           - mouse interaction
-           
-           Goaloo remains visible underneath.
-           ===================================================== */
-
-        #lock {
-            position: absolute;
-            inset: 0;
-
-            width: 100%;
-            height: 100%;
-
-            background: transparent;
-
-            z-index: 9999;
-
-            touch-action: none;
-
-            overscroll-behavior: none;
-
-            cursor: default;
-        }
-    </style>
+    /*
+     * This is the part that actually
+     * prevents the iframe from scrolling.
+     */
+    pointer-events: none;
+}
+</style>
 </head>
 
 <body>
 
-    <div id="crop">
+<div id="crop">
 
-        <iframe
-            id="goaloo"
-            frameborder="0"
-            scrolling="yes">
-        </iframe>
+    <iframe
+        id="goaloo"
+        frameborder="0"
+        scrolling="no">
+    </iframe>
 
-        <!-- Invisible layer that locks the display -->
-        <div id="lock"></div>
+</div>
 
-    </div>
+<script>
+const params = new URLSearchParams(
+    window.location.search
+);
 
-    <script>
-        const params = new URLSearchParams(
-            window.location.search
-        );
+const id = params.get("id");
 
-        const id = params.get("id");
+const goalooFrame =
+    document.getElementById("goaloo");
 
-        const goalooFrame =
-            document.getElementById("goaloo");
+if (id && id.trim() !== "") {
 
-        if (id && id.trim() !== "") {
+    goalooFrame.src =
+        "https://live.goaloo901.com/basketball/match-" +
+        encodeURIComponent(id.trim());
 
-            goalooFrame.src =
-                "https://live.goaloo901.com/basketball/match-" +
-                encodeURIComponent(id.trim());
+} else {
 
-        } else {
+    goalooFrame.src = "about:blank";
 
-            goalooFrame.src = "about:blank";
-
-        }
-    </script>
+}
+</script>
 
 </body>
 </html>
