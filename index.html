@@ -65,24 +65,49 @@
             position: absolute;
 
             /*
-             * CROP 200px FROM THE TOP
+             * =====================================================
+             * TOP CROP
+             *
+             * Removes 50px from the top.
+             *
+             * Increase to -75px, -100px, etc. if needed.
+             * =====================================================
              */
-            top: 50px;
-
-            left: 40px;
+            top: -50px;
 
 
             /*
-             * MAKE FRAME WIDER THAN VIEWPORT
-             * SO RIGHT SCROLLBAR IS CROPPED
+             * =====================================================
+             * LEFT CROP
+             *
+             * Removes 40px from the left.
+             * =====================================================
              */
-            width: calc(100% + 40px);
+            left: -40px;
 
 
             /*
-             * COMPENSATE FOR TOP CROP
+             * =====================================================
+             * WIDTH
+             *
+             * 40px is cropped from the left
+             * 40px is cropped from the right
+             *
+             * Therefore add 80px to the width.
+             * =====================================================
              */
-            height: calc(100%);
+            width: calc(100% + 80px);
+
+
+            /*
+             * =====================================================
+             * HEIGHT
+             *
+             * We moved the iframe 50px upward,
+             * so add 50px to maintain the visible bottom.
+             * =====================================================
+             */
+            height: calc(100% + 50px);
 
 
             border: 0;
@@ -103,8 +128,6 @@
              * - swipe
              * - scroll
              * - interact with Goaloo
-             *
-             * The frame remains visible.
              * =====================================================
              */
             pointer-events: none;
@@ -138,7 +161,7 @@
     <script>
         /* =========================================================
            GET MATCH ID FROM APPSMITH
-           
+
            Appsmith loads this page as:
 
            https://betpointalerts.github.io/goalooframe/?id=12345
