@@ -7,160 +7,71 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Goaloo Display</title>
+    <title>Goaloo Frame</title>
 
     <style>
-        /* =========================================================
-           LOCK THE OUTER PAGE
-           ========================================================= */
-
         html,
         body {
             margin: 0;
             padding: 0;
-
             width: 100%;
             height: 100%;
-
-            overflow: hidden !important;
-
+            overflow: hidden;
             background: #ffffff;
-
-            overscroll-behavior: none !important;
-
-            touch-action: none !important;
         }
-
-
-        /* =========================================================
-           FIXED CROPPING WINDOW
-           ========================================================= */
 
         #crop {
             position: fixed;
-
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-
             width: 100%;
             height: 100%;
-
-            overflow: hidden !important;
-
-            background: #ffffff;
-
-            overscroll-behavior: none !important;
-
-            touch-action: none !important;
+            overflow: hidden;
         }
-
-
-        /* =========================================================
-           GOALOO FRAME
-           ========================================================= */
 
         #goaloo {
             position: absolute;
 
-            /*
-             * =====================================================
-             * TOP CROP
-             *
-             * Removes the first 50px of Goaloo's page.
-             *
-             * The remaining content starts at the very top
-             * of the visible frame.
-             * =====================================================
-             */
+            /* Crop unwanted top area */
             top: -50px;
 
-
-            /*
-             * =====================================================
-             * LEFT / RIGHT CROP
-             *
-             * 40px removed from LEFT
-             * 40px removed from RIGHT
-             * =====================================================
-             */
+            /* Crop 40px from left */
             left: -40px;
 
+            /* Crop 40px from left + 40px from right */
             width: calc(100% + 80px);
 
-
-            /*
-             * =====================================================
-             * HEIGHT
-             *
-             * Compensate for the 50px top crop.
-             * =====================================================
-             */
+            /* Compensate for top crop */
             height: calc(100% + 50px);
 
-
             border: 0;
-
             display: block;
-
-            background: #ffffff;
-
-
-            /*
-             * =====================================================
-             * DISPLAY ONLY
-             * =====================================================
-             */
-            pointer-events: none;
-
-            touch-action: none !important;
-
-            overscroll-behavior: none !important;
         }
     </style>
 </head>
 
-
 <body>
 
-    <div id="crop">
+<div id="crop">
+    <iframe
+        id="goaloo"
+        frameborder="0"
+        scrolling="yes">
+    </iframe>
+</div>
 
-        <iframe
-            id="goaloo"
-            frameborder="0"
-            scrolling="no"
-            allow="fullscreen">
-        </iframe>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
 
-    </div>
+    const goalooFrame = document.getElementById("goaloo");
 
-
-    <script>
-        const params = new URLSearchParams(
-            window.location.search
-        );
-
-        const id = params.get("id");
-
-        const goalooFrame =
-            document.getElementById("goaloo");
-
-
-        if (id && id.trim() !== "") {
-
-            const goalooUrl =
-                "https://live.goaloo901.com/basketball/match-" +
-                encodeURIComponent(id.trim());
-
-            goalooFrame.src = goalooUrl;
-
-        } else {
-
-            goalooFrame.src = "about:blank";
-
-        }
-    </script>
+    if (id && id.trim() !== "") {
+        goalooFrame.src =
+            "https://live.goaloo901.com/basketball/match-" +
+            encodeURIComponent(id.trim());
+    }
+</script>
 
 </body>
 </html>
