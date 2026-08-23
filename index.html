@@ -64,37 +64,29 @@
         #goaloo {
             position: absolute;
 
-
             /*
              * =====================================================
              * TOP CROP
              *
-             * Removes 100px from the top.
+             * Removes the first 50px of Goaloo's page.
+             *
+             * The remaining content starts at the very top
+             * of the visible frame.
              * =====================================================
              */
-            top: 0px;
+            top: -50px;
 
 
             /*
              * =====================================================
-             * LEFT CROP
+             * LEFT / RIGHT CROP
              *
-             * Removes 40px from the left.
+             * 40px removed from LEFT
+             * 40px removed from RIGHT
              * =====================================================
              */
             left: -40px;
 
-
-            /*
-             * =====================================================
-             * WIDTH
-             *
-             * 40px cropped from LEFT
-             * 40px cropped from RIGHT
-             *
-             * Total extra width = 80px
-             * =====================================================
-             */
             width: calc(100% + 80px);
 
 
@@ -102,10 +94,10 @@
              * =====================================================
              * HEIGHT
              *
-             * Compensates for the 100px top crop.
+             * Compensate for the 50px top crop.
              * =====================================================
              */
-            height: calc(100% + 100px);
+            height: calc(100% + 50px);
 
 
             border: 0;
@@ -118,12 +110,6 @@
             /*
              * =====================================================
              * DISPLAY ONLY
-             *
-             * No clicking
-             * No tapping
-             * No dragging
-             * No swiping
-             * No scrolling
              * =====================================================
              */
             pointer-events: none;
@@ -138,10 +124,6 @@
 
 <body>
 
-    <!-- =========================================================
-         FIXED DISPLAY WINDOW
-         ========================================================= -->
-
     <div id="crop">
 
         <iframe
@@ -155,10 +137,6 @@
 
 
     <script>
-        /* =========================================================
-           GET MATCH ID FROM APPSMITH
-           ========================================================= */
-
         const params = new URLSearchParams(
             window.location.search
         );
@@ -168,10 +146,6 @@
         const goalooFrame =
             document.getElementById("goaloo");
 
-
-        /* =========================================================
-           LOAD GOALOO MATCH
-           ========================================================= */
 
         if (id && id.trim() !== "") {
 
