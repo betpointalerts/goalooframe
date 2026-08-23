@@ -7,103 +7,84 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Goaloo Frame</title>
+    <title>Goaloo Display</title>
 
     <style>
-        /* =========================================================
-           LOCK ONLY THE GITHUB WRAPPER
-           ========================================================= */
-
         html,
         body {
             margin: 0;
             padding: 0;
-
             width: 100%;
             height: 100%;
-
             overflow: hidden !important;
-
             background: #ffffff;
-
-            overscroll-behavior: none !important;
         }
-
-
-        /* =========================================================
-           WRAPPER / VIEWPORT
-           ========================================================= */
 
         #crop {
             position: fixed;
-
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-
+            inset: 0;
             width: 100%;
             height: 100%;
-
             overflow: hidden !important;
-
-            background: #ffffff;
-
-            overscroll-behavior: none !important;
-
-            /*
-             * Prevent the GitHub wrapper itself from
-             * becoming a touch/scroll surface.
-             */
-            touch-action: none !important;
         }
 
-
-        /* =========================================================
-           GOALOO FRAME
-           ========================================================= */
+        /* =====================================================
+           GOALOO
+           ===================================================== */
 
         #goaloo {
             position: absolute;
 
-            /*
-             * Crop unwanted top area
-             */
+            /* Remove unwanted area from top */
             top: -50px;
 
-            /*
-             * Crop 40px from left
-             */
+            /* Remove 40px from left */
             left: -40px;
 
-            /*
-             * Crop 40px from left
-             * Crop 40px from right
-             */
+            /* Remove 40px from left + 40px from right */
             width: calc(100% + 80px);
 
-            /*
-             * Compensate for top crop
-             */
+            /* Compensate for top crop */
             height: calc(100% + 50px);
 
             border: 0;
-
             display: block;
+        }
 
-            background: #ffffff;
+        /* =====================================================
+           INVISIBLE LOCKING LAYER
+           
+           Sits above Goaloo.
+           
+           It prevents:
+           - touch scrolling
+           - swiping
+           - dragging
+           - clicking
+           - mouse interaction
+           
+           Goaloo remains visible underneath.
+           ===================================================== */
 
-            /*
-             * IMPORTANT:
-             * Do NOT use pointer-events:none here.
-             *
-             * Goaloo remains visible and can still
-             * receive its own interaction.
-             */
+        #lock {
+            position: absolute;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background: transparent;
+
+            z-index: 9999;
+
+            touch-action: none;
+
+            overscroll-behavior: none;
+
+            cursor: default;
         }
     </style>
 </head>
-
 
 <body>
 
@@ -115,14 +96,12 @@
             scrolling="yes">
         </iframe>
 
+        <!-- Invisible layer that locks the display -->
+        <div id="lock"></div>
+
     </div>
 
-
     <script>
-        /* =========================================================
-           GET MATCH ID FROM APPSMITH
-           ========================================================= */
-
         const params = new URLSearchParams(
             window.location.search
         );
@@ -131,11 +110,6 @@
 
         const goalooFrame =
             document.getElementById("goaloo");
-
-
-        /* =========================================================
-           LOAD GOALOO
-           ========================================================= */
 
         if (id && id.trim() !== "") {
 
